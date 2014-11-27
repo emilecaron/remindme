@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="surprise">
+        <meta name="author" content="zozor">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link href="static/cover.css" rel="stylesheet">
+        <title>alerte rouge</title>
+    </head>
+    <body>
+        <div class="site-wrapper">
+          <div class="site-wrapper-inner">
+            <div class="cover-container">
+              <div class="inner cover">
+                <h1 class="cover-heading">Remind me</h1>
+                <form role="form" action="javascript:void(0);" class="lead">
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="date" required autofocus></input>
+                        <input type="email" class="form-control" id="email" placeholder="email..." required></input>
+                    </div>
+                </form>
+                <div class="alert alert-warning alert-dismissible hidden" role="alert" class="lead" id="alert">
+                      <button type="button" class="close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                      </button>
+                      <div id="alert-msg">
+                        <strong>Type</strong> Better check yourself, you're not looking too good.
+                      </div>
+                    </div>
+                </div>
+              <div class="mastfoot">
+                <div class="inner">
+                    <p>using <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://github.com/emilecaron">Zozor</a>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="static/script.js"></script>
+    </body>
+</html>
