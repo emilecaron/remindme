@@ -4,9 +4,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="surprise">
         <meta name="author" content="zozor">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <link href="static/cover.css" rel="stylesheet">
         <title>alerte rouge</title>
+
+        <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}"/>
+        <link rel="stylesheet" href="{{url_for('static', filename='cover.css')}}"/>
     </head>
     <body>
         <div class="site-wrapper">
@@ -38,8 +39,10 @@
             </div>
           </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <script src="static/script.js"></script>
+        <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+        <script src="{{url_for('static', filename='jquery.js')}}"></script>
+        <script src="{{url_for('static', filename='underscore.js')}}"></script>
+        <script src="{{url_for('static', filename='backbone-min.js')}}"></script>
+        <script src="{{url_for('static', filename='script.js')}}"></script>
     </body>
 </html>
