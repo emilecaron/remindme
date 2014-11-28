@@ -1,48 +1,77 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="surprise">
-        <meta name="author" content="zozor">
-        <title>alerte rouge</title>
+<!DOCTYPE html>
+<html lang="en">
 
-        <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}"/>
-        <link rel="stylesheet" href="{{url_for('static', filename='cover.css')}}"/>
-    </head>
-    <body>
-        <div class="site-wrapper">
-          <div class="site-wrapper-inner">
-            <div class="cover-container">
-              <div class="inner cover">
-                <h1 class="cover-heading">Remind me</h1>
-                <form role="form" action="javascript:void(0);" class="lead">
-                    <div class="form-group">
-                        <input type="date" class="form-control" id="date" required autofocus></input>
-                        <input type="email" class="form-control" id="email" placeholder="email..." required></input>
-                    </div>
-                </form>
-                <div class="alert alert-warning alert-dismissible hidden" role="alert" class="lead" id="alert">
-                      <button type="button" class="close">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                      </button>
-                      <div id="alert-msg">
-                        <strong>Type</strong> Better check yourself, you're not looking too good.
-                      </div>
-                    </div>
-                </div>
-              <div class="mastfoot">
-                <div class="inner">
-                    <p>using <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://github.com/emilecaron">Zozor</a>.</p>
-                </div>
-              </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>alerte rouge</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='cover.css')}}"/>
+</head>
+
+<body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover">
+
+            <header>      
+              <h1 class="cover-heading">Remind me</h1>
+            </header>   
+
+            <section>
+              <div id="form-div"></div>
+            </section>
+
+            <section>
+              <div id='msg-div'>
+            </section>
+            
+          </div>
+          <div class="mastfoot">
+            <div class="inner">
+            
+              <footer>
+                <p>using <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://github.com/emilecaron">Zozor</a>.</p>
+              </footer>
+            
             </div>
           </div>
         </div>
-        <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
-        <script src="{{url_for('static', filename='jquery.js')}}"></script>
-        <script src="{{url_for('static', filename='underscore.js')}}"></script>
-        <script src="{{url_for('static', filename='backbone-min.js')}}"></script>
-        <script src="{{url_for('static', filename='script.js')}}"></script>
-    </body>
+      </div>
+    </div>
+    <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='jquery.js')}}"></script>
+    <script src="{{url_for('static', filename='underscore.js')}}"></script>
+    <script src="{{url_for('static', filename='backbone-min.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+</body>
 </html>
+
+
+<!-- Templates -->
+<script type="text/template" id="form-template">
+<div class="view">
+<form role="form" action="javascript:void(0);" class="lead">
+  <div class="form-group">
+    <input type="date" class="form-control" id="date" required autofocus></input>
+    <input type="email" class="form-control" id="email" placeholder="email..." required></input>
+  </div>
+</form>
+</div>
+</script>
+
+<script type="text/template" id="message-template">
+<div class="view">
+    <div class="alert alert-warning alert-dismissible <%= hidden ? 'hidden' : '' %>" role="alert" class="lead" id="alert">
+      <button type="button" class="close">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <div id="alert-msg">
+        <strong><%- title %></strong><%- msg %>
+      </div>
+    </div>
+</div>
+</script>
+
