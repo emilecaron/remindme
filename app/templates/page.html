@@ -54,8 +54,8 @@
 <div class="view">
 <form role="form" action="javascript:void(0);" class="lead">
   <div class="form-group">
-    <input type="date" class="form-control" id="date" required autofocus></input>
-    <input type="email" class="form-control" id="email" placeholder="email..." required></input>
+    <input type="date" class="form-control" id="date" required autofocus value="<%- date %>"></input>
+    <input type="email" class="form-control" id="email" placeholder="email..." required value="<%- email %>"></input>
   </div>
 </form>
 </div>
@@ -63,15 +63,14 @@
 
 <script type="text/template" id="msg-template">
 <div class="view">
-    <div class="alert alert-warning alert-dismissible <%= hidden ? 'hidden' : '' %>" role="alert" class="lead" id="alert">
+    <div class="alert alert-<%- type %>" role="alert" class="lead" id="alert">
       <button type="button" class="close">
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
       </button>
       <div id="alert-msg">
-        <strong><%- title %></strong><%- msg %>
+        <strong><%- title %></strong> <%- msg %>
       </div>
     </div>
 </div>
 </script>
-

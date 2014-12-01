@@ -1,24 +1,26 @@
 
 $(function(){
-  console.log('Backbone time');
 
-  var Message = Backbone.Model.extend({
+  var Form = Backbone.Model.extend({
 
     defaults: function() {
-      return {
-        title: 'TITLE',
-        msg: 'MSG',
-        hidden: true,
-        type: "warning"
-      };
-    }
+      return {email:'smilzor@gmail.com',date:'1991-05-10'}; // Debug values
+      return {date: '', email:''};
+    },
+
+    valid: function() {
+        return true;
+        console.log('Trying to validate data...');
+        // Catch html validation, not null OR regex
+    },
 
   });
   
 
   var MsgView = Backbone.View.extend({
 
-    el:  $("#msg-div"),
+    //el:  $("#msg-div"),
+    id: 'msg',
 
     // Cache the template function
     template: _.template($('#msg-template').html()),
@@ -30,6 +32,7 @@ $(function(){
 
     initialize: function() {
       this.listenTo(this.model, 'destroy', this.remove);
+      $("#msg-div").append(this.el);
     },
 
     render: function() {
@@ -39,6 +42,7 @@ $(function(){
 
     // Remove the msg, destroy the model.
     close: function() {
+      console.log('Model destroy time');
       this.model.destroy();
     }
 
@@ -51,37 +55,47 @@ $(function(){
     template: _.template($('#form-template').html()),
 
     events: {
-      "keypress #email":  "submitOnEnter"
+      "keypress #email":  "submitOnEnter",
+      "change": "postOnChange"
+    },
+
+    initialize: function() {
+      console.log('init formView');
     },
 
     render: function() {
-      this.$el.html(this.template());
+      console.log('render formView');
+      this.$el.html(this.template(this.model.toJSON()));
+      this.email = this.$('#email');
+      this.date = this.$('#date');
       return this;
     },
 
-    submitOnEnter: function() {
+    submitOnEnter: function(e) {
+      // Update model with form data on <ENTER>
       if (e.keyCode != 13) return;
-      if (!this.input.val()) return;
-      // send the shit
 
-      console.log('loading');
+      this.model.set({
+        "email": this.email.val(), 
+        "date": this.date.val()
+      });
+    },
 
-      var form = {
-        "email": $('#email').val(),  // Must do something for that
-        "date": $('#date').val()
-      };
-      $.post('http://localhost:5000/api/register', form, this.onReply, 'json').always(function() {
+    postOnChange: function() {
+      // Post data to server on model change
+      console.log('posting data');
+
+      if (!this.model.valid()) return;
+
+      $.post('http://localhost:5000/api/register', this.model.toJSON(), this.onReply, 'json').always(function() {
         console.log('loaded');
-        $('#alert').removeClass('hidden');
       });
     },
 
     onReply: function(data) {
-        console.log('reply');
+        // Create msg
         console.log(data);
-        //$('#alert-msg').html(data.msg);
-        var view = new MsgView({title: 'Yeah', msg:data.msg});
-        this.$("#msg-div").append(view.render().el);
+        var view = new MsgView({model: new Backbone.Model(data)}).render(); 
     }
 
   });
@@ -90,20 +104,11 @@ $(function(){
 
     el: $("#site-wrapper"),
 
-    formTemplate: _.template($('#form-template').html()),
-
-
-
     initialize: function() {
-        var form = new FormView();
-
-    },
-
-    // Re-rendering the App just means refreshing the statistics -- the rest
-    // of the app doesn't change.
-    render: function() {
-        //
+        console.log('Init appView');
+        this.form = new FormView({model: new Form}).render();
     }
+
   });
 
 
@@ -111,17 +116,3 @@ $(function(){
 
 });
 
-
-
-
-
-
-$(document).ready(function() {
-    return;
-    console.log('ready');
-
-    // bind
-    $('form').submit(on_submit)
-    $('.close').click(function(){$('#alert').addClass('hidden');})
-
-});
