@@ -97,7 +97,7 @@ input {
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
-    vertical-align: middle;
+    vertical-align: text-top;
   }
   /* Handle the widths */
   .mastfoot,

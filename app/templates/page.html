@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>alerte rouge</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='cover.css')}}"/>
 </head>
 
@@ -40,10 +40,11 @@
         </div>
       </div>
     </div>
-    <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
-    <script src="{{url_for('static', filename='jquery.js')}}"></script>
-    <script src="{{url_for('static', filename='underscore.js')}}"></script>
-    <script src="{{url_for('static', filename='backbone-min.js')}}"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.backbone.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>
 </html>
@@ -56,6 +57,7 @@
   <div class="form-group">
     <input type="date" class="form-control" id="date" required autofocus value="<%- date %>"></input>
     <input type="email" class="form-control" id="email" placeholder="email..." required value="<%- email %>"></input>
+    <button type="submit" class="btn btn-default">Remind me</button>
   </div>
 </form>
 </div>

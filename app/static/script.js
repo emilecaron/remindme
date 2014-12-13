@@ -19,8 +19,8 @@ $(function(){
 
   var MsgView = Backbone.View.extend({
 
-    //el:  $("#msg-div"),
-    id: 'msg',
+    el:  $("#msg-div"),
+    //id: 'msg-',
 
     // Cache the template function
     template: _.template($('#msg-template').html()),
@@ -55,47 +55,48 @@ $(function(){
     template: _.template($('#form-template').html()),
 
     events: {
-      "keypress #email":  "submitOnEnter",
-      "change": "postOnChange"
+      "click .btn": "postData"
     },
 
-    initialize: function() {
-      console.log('init formView');
-    },
 
     render: function() {
-      console.log('render formView');
       this.$el.html(this.template(this.model.toJSON()));
       this.email = this.$('#email');
       this.date = this.$('#date');
       return this;
     },
 
-    submitOnEnter: function(e) {
-      // Update model with form data on <ENTER>
-      if (e.keyCode != 13) return;
-
+    postData: function(e) {
+      // Post model data to server
       this.model.set({
-        "email": this.email.val(), 
-        "date": this.date.val()
+        email: this.email.val(), 
+        date: this.date.val()
       });
-    },
-
-    postOnChange: function() {
-      // Post data to server on model change
-      console.log('posting data');
-
       if (!this.model.valid()) return;
 
-      $.post('http://localhost:5000/api/register', this.model.toJSON(), this.onReply, 'json').always(function() {
-        console.log('loaded');
+      console.log('posting data');
+
+      //$.post('http://localhost:5000/api/register', this.model.toJSON(), this.onReply, 'json').always(function() {
+      $.post('http://localhost:5000/api/register', this.model.toJSON()).done(function(data) {
+        //this.msg = new MsgView({model: new Backbone.Model(data)}).render();
+        this.msg = new Backbone.Model(data);
+
+      }).fail(function(){
+        //this.msg = new MsgView({model: new Backbone.Model()}).render()
+        this.msg = new Backbone.Model({
+          type: "danger",
+          title :"Sorry!",
+          msg: "server is taking a break."
+        });
+      }).always(function(){
+        console.log(this.msg);
+        this.msg = new MsgView({model: this.msg}).render();
       });
     },
 
     onReply: function(data) {
         // Create msg
-        console.log(data);
-        var view = new MsgView({model: new Backbone.Model(data)}).render(); 
+         
     }
 
   });
