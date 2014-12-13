@@ -6,23 +6,23 @@ from mongoengine import *
 from credentials import Credentials
 
 
-class AlertDocument(Document, Credentials):
+class Alert(Document, Credentials):
+
+    meta = {'collection': 'alert'}
 
     email = EmailField(required=True)
     date = DateTimeField(required=True)
+    created_at = DateTimeField(default=datetime.now())
     last_sent = DateTimeField()
 
+    
+    @Credentials._connect # TODO: find way to do this from Credentials directly
     def save(self):
-        """
-        One connection per save
-        """
-        con = connect(db='alert', host=self.db_url)
-        Document.save(self)
-        import time
-        time.sleep(10)
-        x.remove()
-        con.disconnect()
+        return Document.save(self)
+
+    # connected = (save, ...)  <- only write this here
+
 
 if __name__ == '__main__':
-    x = AlertDocument(email='emile.caron@outlook.com', date=datetime.now())
+    x = Alert(email='emile.caron@outlook.com', date=datetime.now())
     x.save()

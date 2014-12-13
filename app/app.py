@@ -4,7 +4,7 @@ import json
 
 from flask import Flask, request, render_template, jsonify
 
-from alert import AlertDocument, connect
+from alert import Alert
 
 
 app = Flask(__name__)
@@ -21,6 +21,7 @@ def register():
     date = request.form.get('date')
     
     rfg = request.form.get
+    
 
     
     # success, danger

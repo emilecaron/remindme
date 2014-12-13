@@ -2,6 +2,8 @@
 
 from os import path
 
+from mongoengine import connect
+
 class Credentials(object) :
     """
     Fast access to mongo connection url through cached property
@@ -24,6 +26,16 @@ class Credentials(object) :
     @property
     def db_url(self):
         return self.url_cache or self.load_db_url()
+
+    def _connect(func):
+        """
+        Decorator for single request db connections
+        """
+        def _decorator(self, *args, **kwargs):
+            con = connect(db='alert', host=self.db_url)
+            func(self)
+            con.disconnect()
+        return _decorator
 
 
 if __name__ == '__main__':
