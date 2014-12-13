@@ -33,5 +33,4 @@ def register():
 
 
 if __name__ == "__main__":
-    db_url = AlertDocument.get_db_url()
     app.run(debug=True)
