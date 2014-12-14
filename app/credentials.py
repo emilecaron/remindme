@@ -4,44 +4,37 @@ from os import path
 
 from mongoengine import connect
 
-class Credentials(object) :
-    """
-    Fast access to mongo connection url through cached property
-    Load from credential file
-    And also i didn't want to have this stuff in my document file
-    """
+"""
+Mongo connection stuff is hidden in here.
+"""
 
-    url_cache = None
-    URL_FILE = './credentials'
+url = None
+URL_FILE = './credentials'
 
-    def load_db_url(self):
-        
-        if not path.isfile(self.URL_FILE):
-            raise Exception('credential file is missing')
+def load_db_url(): 
+    global url
+    
+    if not path.isfile(URL_FILE):
+        raise Exception('credential file is missing')
 
-        with open(self.URL_FILE, 'r') as fp:
-            self.url_cache = fp.read()
-            return self.db_url
+    with open(URL_FILE, 'r') as fp:
+        url = fp.read()
+        return url
 
-    @property
-    def db_url(self):
-        return self.url_cache or self.load_db_url()
 
-    def _connect(func):
-        """
-        Decorator for single request db connections
-        """
-        def _decorator(self, *args, **kwargs):
-            con = connect(db='alert', host=self.db_url)
-            func(self)
-            con.disconnect()
-        return _decorator
+def db_connected(func):
+
+    def _decorator(*args, **kwargs):
+        con = connect(db='alert', host=url or load_db_url())
+        ret = func(*args, **kwargs)
+        con.disconnect()
+        return ret
+    return _decorator
 
 
 if __name__ == '__main__':
 
     # cache test
-    doc = Credentials()
-    print(doc.db_url)
-    doc.URL_FILE = '/dev/null'
-    print(doc.db_url)
+    print(load_db_url())
+    URL_FILE = '/dev/null'
+    print(url)

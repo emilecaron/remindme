@@ -3,15 +3,17 @@ $(function(){
 
   var Form = Backbone.Model.extend({
 
+    url: 'http://localhost:5000/api/register',
+
     defaults: function() {
       return {email:'smilzor@gmail.com',date:'1991-05-10'}; // Debug values
       return {date: '', email:''};
     },
 
-    valid: function() {
-        return true;
-        console.log('Trying to validate data...');
-        // Catch html validation, not null OR regex
+    validate: function(attrs, options) {
+      console.log('validating');
+      //might need something here...
+      return null;
     },
 
   });
@@ -19,30 +21,23 @@ $(function(){
 
   var MsgView = Backbone.View.extend({
 
-    el:  $("#msg-div"),
-    //id: 'msg-',
-
-    // Cache the template function
     template: _.template($('#msg-template').html()),
 
-    // The DOM events specific to an item.
     events: {
       "click .close"      : "close"
     },
 
     initialize: function() {
       this.listenTo(this.model, 'destroy', this.remove);
-      $("#msg-div").append(this.el);
     },
 
     render: function() {
+      console.log('rendering msg');
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
 
-    // Remove the msg, destroy the model.
     close: function() {
-      console.log('Model destroy time');
       this.model.destroy();
     }
 
@@ -55,7 +50,13 @@ $(function(){
     template: _.template($('#form-template').html()),
 
     events: {
-      "click .btn": "postData"
+      "click .btn": "submit"
+    },
+
+    initialize: function() {
+      this.listenTo(this.model, 'error', this.onMsg);
+      this.listenTo(this.model, 'sync', this.onMsg);
+      this.listenTo(this.model, 'destroy', this.remove);
     },
 
 
@@ -66,37 +67,38 @@ $(function(){
       return this;
     },
 
-    postData: function(e) {
-      // Post model data to server
-      this.model.set({
-        email: this.email.val(), 
-        date: this.date.val()
-      });
-      if (!this.model.valid()) return;
+    showMsg: function(data){
+      console.log(data);
+      this.msg && this.msg.remove()
 
-      console.log('posting data');
+      msgModel = new Backbone.Model(data);
+      this.msg = new MsgView({model: msgModel}).render().el
+      $('#msg-div').append(this.msg);
+    },
 
-      //$.post('http://localhost:5000/api/register', this.model.toJSON(), this.onReply, 'json').always(function() {
-      $.post('http://localhost:5000/api/register', this.model.toJSON()).done(function(data) {
-        //this.msg = new MsgView({model: new Backbone.Model(data)}).render();
-        this.msg = new Backbone.Model(data);
-
-      }).fail(function(){
-        //this.msg = new MsgView({model: new Backbone.Model()}).render()
-        this.msg = new Backbone.Model({
+    onMsg: function(_, rq){
+      this.showMsg(
+        (rq.status === 201)?
+        { // success message
+          type: "success",
+          title: "Zozor",
+          msg: "registered successfully!"
+        }:
+        { // Error messages
           type: "danger",
-          title :"Sorry!",
-          msg: "server is taking a break."
-        });
-      }).always(function(){
-        console.log(this.msg);
-        this.msg = new MsgView({model: this.msg}).render();
+          title: "Sorry!",
+          msg: {
+            409: "already registered",
+            500: "server is taking a break."
+          }[rq.status || 500]
       });
     },
 
-    onReply: function(data) {
-        // Create msg
-         
+    submit: function(e) {
+      this.model.save({
+        email: this.email.val(), 
+        date: this.date.val()
+      });
     }
 
   });
@@ -106,12 +108,10 @@ $(function(){
     el: $("#site-wrapper"),
 
     initialize: function() {
-        console.log('Init appView');
-        this.form = new FormView({model: new Form}).render();
+        new FormView({model: new Form}).render();
     }
 
   });
-
 
   var App = new AppView;
 
