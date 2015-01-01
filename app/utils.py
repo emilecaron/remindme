@@ -14,10 +14,10 @@ import requests
 from flask import render_template
 
 
-CREDENTIALS_FILE = './credentials.cfg'
+EMAIL_DATE_FORMAT = ""
 
 config = ConfigParser()
-config.read(CREDENTIALS_FILE)
+config.read('./settings.cfg')
 
 
 class ConnectionContext:
@@ -51,7 +51,7 @@ def send_alert(alert):
 
     subject = 'This is your RemindMe alert'
     data = {
-        'start_date': alert.next_start_date(),
+        'start_date': alert.next_start_date().strftime(config.get('misc', 'email_date_format')),
         'email': alert.email
     }
     body = render_template('email.html', **data)
@@ -61,5 +61,6 @@ def send_alert(alert):
 
 
 if __name__ == '__main__':
-    send_email('smilzor@gmail.com', 'subject', '<h1>Body</h1>')
-    print('done.')
+
+    #send_email('smilzor@gmail.com', 'subject', '<h1>Body</h1>')
+    print(config.get('misc', 'email_date_format'))
