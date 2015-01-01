@@ -34,7 +34,7 @@ class ConnectionContext:
 
 
 def send_email(to, subject, html, sender='noreply'):
-    url = 'https://api.sendgrid.com/api/mail.send.json'
+    url = config.get('sendgrid', 'send_url')
     params = {
         'api_user': config.get('sendgrid', 'api_user'),
         'api_key': config.get('sendgrid', 'api_key'),
@@ -45,11 +45,10 @@ def send_email(to, subject, html, sender='noreply'):
     }
     rep = requests.get(url, params=params)
     rep.raise_for_status()
-    print(rep.json())
+
 
 def send_alert(alert):
 
-    # SEND THE STUFF
     subject = 'This is your RemindMe alert'
     data = {
         'start_date': alert.next_start_date(),

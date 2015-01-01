@@ -36,15 +36,11 @@ def register():
 
 @app.route("/send")
 def send_alerts():
-
     sent = []
+    
     with ConnectionContext(safe=False):
-
         for alert in Alert.alerts_to_send():
-            if not send_alert(alert):
-                continue
-
-            alert.update_sent()
+            send_alert(alert)
             sent.append(alert.email)
 
     return jsonify({'emails_sent': sent})

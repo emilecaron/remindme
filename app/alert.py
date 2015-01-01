@@ -52,6 +52,7 @@ class Alert(Document):
         remind_limit = now + timedelta(days=3)
 
         not_sent = Alert.objects(last_sent__not__gt=last_sent_limit)
+        print(len(not_sent))
 
         return [alrt for alrt in not_sent if alrt.next_start_date() < remind_limit]
 
