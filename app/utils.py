@@ -11,6 +11,7 @@ from configparser import ConfigParser
 
 from mongoengine import connect
 import requests
+from flask import render_template
 
 
 CREDENTIALS_FILE = './credentials.cfg'
@@ -20,12 +21,16 @@ config.read(CREDENTIALS_FILE)
 
 
 class ConnectionContext:
+    def __init__(self, safe=True):
+        self.safe = safe
+
     def __enter__(self):
         self.con = connect(db='alert', host=config.get('mongolab', 'url'))
+        return self.con
 
     def __exit__(self, type, exc, trace):
         self.con.disconnect()
-        return False
+        if self.safe: return False
 
 
 def send_email(to, subject, html, sender='noreply'):
@@ -42,6 +47,18 @@ def send_email(to, subject, html, sender='noreply'):
     rep.raise_for_status()
     print(rep.json())
 
+def send_alert(alert):
+
+    # SEND THE STUFF
+    subject = 'This is your RemindMe alert'
+    data = {
+        'start_date': alert.next_start_date(),
+        'email': alert.email
+    }
+    body = render_template('email.html', **data)
+
+    send_email(alert.email, subject, body)
+    alert.update_sent()
 
 
 if __name__ == '__main__':

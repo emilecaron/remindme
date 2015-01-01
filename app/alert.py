@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from mongoengine import *
 
@@ -18,20 +18,42 @@ class Alert(Document):
     last_sent = DateTimeField()
 
 
-    def next_start_date(self):
-        now = datetime.now()
-
-    @staticmethod
-    def get_alerts_to_send():
-        yield dict(email='lol@gmail.com', date='Soon')
-
     def save_unique(self):
-        query_args = {f: getattr(self, f) for f in self.key}
-        
-        if Alert.objects(**query_args).count():
+        query_args = {f: getattr(self, f) for f in self.key}        
+        if Alert.objects(**query_args):
             return 'duplicate'
 
-        return self.save()
+        self.save()
+        return 'ok'
+
+    def update_sent(self):
+        self.last_sent = datetime.now()
+        self.save()
+
+    def next_start_date(self):
+        now = datetime.now()
+        delta = abs(now - self.date)
+        delta_days = delta.total_seconds() / 86400
+        freq = timedelta(days=28)
+
+        next_date = self.date + (1 + delta_days // 28)* freq
+
+        if next_date < now:
+            raise Exception('something wrong with your maths zozor')
+
+        return next_date
+
+
+    @staticmethod
+    def alerts_to_send():
+
+        now = datetime.now()
+        last_sent_limit = now - timedelta(days=27)
+        remind_limit = now + timedelta(days=3)
+
+        not_sent = Alert.objects(last_sent__not__gt=last_sent_limit)
+
+        return [alrt for alrt in not_sent if alrt.next_start_date() < remind_limit]
 
 if __name__ == '__main__':
 
