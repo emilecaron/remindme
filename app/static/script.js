@@ -11,8 +11,11 @@ $(function(){
     },
 
     validate: function(attrs, options) {
-      console.log('validating');
-      //might need something here...
+      // Using Mongoengine email validation
+      var emailRe = /(^[-!#$%&'*+\/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+\/=?^_`{}|~0-9A-Z]+)*|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-011\013\014\016-\177])*")@(?:[A-Z0-9](?:[A-Z0-9-]{0,253}[A-Z0-9])?\.)+[A-Z]{2,22}$/i
+      if (!attrs.email.match(emailRe))
+        return attrs.email + " isn't a valid email"; 
+
       return null;
     },
 
@@ -54,8 +57,9 @@ $(function(){
     },
 
     initialize: function() {
-      this.listenTo(this.model, 'error', this.onMsg);
-      this.listenTo(this.model, 'sync', this.onMsg);
+      this.listenTo(this.model, 'error', this.onSyncError);
+      this.listenTo(this.model, 'sync', this.onSync);
+      this.listenTo(this.model, 'invalid', this.onValidationError);
       this.listenTo(this.model, 'destroy', this.remove);
     },
 
@@ -76,21 +80,27 @@ $(function(){
       $('#msg-div').append(this.msg);
     },
 
-    onMsg: function(_, rq){
-      this.showMsg(
-        (rq.status === 201)?
-        { // success message
-          type: "success",
-          title: "Zozor",
-          msg: "registered successfully!"
-        }:
-        { // Error messages
+    onSyncError: function(_, data){
+      this.showMsg({
           type: "danger",
           title: "Sorry!",
-          msg: {
-            409: "already registered",
-            500: "server is taking a break."
-          }[rq.status || 500]
+          msg: (data.status === 409)? "already registered": "server is taking a break."
+      });
+    },
+
+    onValidationError: function(model, error){
+      this.showMsg({
+          type: 'warning',
+          title: '',
+          msg: error
+      });
+    },
+
+    onSync: function(_, data){
+      this.showMsg({
+          type: "success",
+          title: data.email,
+          msg: "registered successfully!"
       });
     },
 

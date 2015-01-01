@@ -6,7 +6,7 @@ from flask import Flask, request, render_template, jsonify
 from mongoengine import NotUniqueError
 
 from alert import Alert
-from credentials import db_connected
+from utils import ConnectionContext
 
 
 app = Flask(__name__)
@@ -19,18 +19,26 @@ def index():
 
 
 @app.route("/api/register", methods=['POST'])
-@db_connected
 def register():
     data = request.json
 
     alert = Alert(**data)
 
-    try:
-        alert.save()
-        return 'ok', 201
+    with ConnectionContext():
+        status = alert.save_unique()
 
-    except NotUniqueError: 
+    if status == 'ok':
+        print('Registered: %s' % data['email'])
+        return jsonify(data)
+
+    if status == 'duplicate':
         return 'duplicate', 409
+
+@app.route("/send", methods=['POST'])
+def send():
+
+    send_email('smilzor@gmail.com', 'subject', '<h1>Body</h1>')
+
 
 
 if __name__ == "__main__":
