@@ -1,1 +1,1 @@
-watchify -e front/main.coffee -o app/static/javascripts/bundle.js --debug --verbose -t coffeeify
+node_modules/watchify/bin/cmd.js -e front/main.coffee -o app/static/javascripts/bundle.js --debug --verbose -t coffeeify

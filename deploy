@@ -5,7 +5,8 @@ source venv/bin/activate
 pip freeze > requirements.txt
 
 # Generate js bundle
-browserify -e app/static/javascripts/main.js > app/static/javascripts/bundle.js
+#browserify -e app/static/javascripts/main.c > app/static/javascripts/bundle.js
+node_modules/browserify/bin/cmd.js -e front/main.coffee -o app/static/javascripts/bundle.js --verbose -t coffeeify
 
 # Create & move to deployment dir
 rm -rf /tmp/heroku_remindme
