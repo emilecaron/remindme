@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-
+from os import environ
 import json
 
 from flask import Flask, request, render_template, jsonify
-from mongoengine import NotUniqueError
+from flask.ext.heroku import Heroku
 
 from alert import Alert
 from utils import ConnectionContext, send_alert
 
 
 app = Flask(__name__)
+Heroku(app)
 
 
 @app.route("/")
@@ -17,9 +18,9 @@ def index():
     return render_template('page.html')
 
 
-
 @app.route("/api/register", methods=['POST'])
 def register():
+    print('Welcome World')
     status = None
     data = request.json
 
@@ -48,4 +49,5 @@ def send_alerts():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    print('Hello World')
+    app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))

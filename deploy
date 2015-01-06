@@ -1,0 +1,25 @@
+#!/bin/bash
+
+source venv/bin/activate
+pip freeze > requirements.txt
+
+
+rm -rf /tmp/heroku_remindme
+cp -r ../remindme /tmp/heroku_remindme
+cd /tmp/heroku_remindme
+
+rm -rf .git .gitignore
+echo "venv" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "web: python app/app.py --log-file -" > Procfile
+
+git init
+heroku git:remote -a zozor-remindme
+
+
+git add .
+git commit -am "release" | grep release
+git push -f heroku master
+heroku ps:scale web=1
+
+heroku logs -t

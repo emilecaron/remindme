@@ -3,7 +3,7 @@ $(function(){
 
   var Form = Backbone.Model.extend({
 
-    url: 'http://localhost:5000/api/register',
+    url: '/api/register',
 
     defaults: function() {
       return {email:'smilzor@gmail.com',date:'1991-05-10'}; // Debug values

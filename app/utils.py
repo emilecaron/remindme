@@ -17,7 +17,7 @@ from flask import render_template
 EMAIL_DATE_FORMAT = ""
 
 config = ConfigParser()
-config.read('./settings.cfg')
+config.read('app/settings.cfg')
 
 
 class ConnectionContext:
