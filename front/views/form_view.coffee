@@ -10,7 +10,6 @@ class FormView extends Backbone.View
     events:
       "click .btn": "submit"
 
-
     initialize: ->
       @listenTo @model, 'error', @onSyncError
       @listenTo @model, 'sync', @onSync
@@ -40,7 +39,6 @@ class FormView extends Backbone.View
       
 
     onValidationError: (model, error) ->
-      # TODO fix this not being triggered since coffee migration
       @showMsg
           type: 'warning'
           title: ''

@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta
 
-from mongoengine import *
+from mongoengine import Document, EmailField, DateTimeField
 
 
 class Alert(Document):
@@ -17,9 +17,8 @@ class Alert(Document):
     created_at = DateTimeField(default=datetime.now())
     last_sent = DateTimeField()
 
-
     def save_unique(self):
-        query_args = {f: getattr(self, f) for f in self.key}        
+        query_args = {f: getattr(self, f) for f in self.key}
         if Alert.objects(**query_args):
             return 'duplicate'
 
@@ -36,13 +35,12 @@ class Alert(Document):
         delta_days = delta.total_seconds() / 86400
         freq = timedelta(days=28)
 
-        next_date = self.date + (1 + delta_days // 28)* freq
+        next_date = self.date + (1 + delta_days // 28) * freq
 
         if next_date < now:
             raise Exception('something wrong with your maths zozor')
 
         return next_date
-
 
     @staticmethod
     def alerts_to_send():
@@ -54,8 +52,13 @@ class Alert(Document):
         not_sent = Alert.objects(last_sent__not__gt=last_sent_limit)
         print(len(not_sent))
 
-        return [alrt for alrt in not_sent if alrt.next_start_date() < remind_limit]
+        return [
+            alrt for alrt in not_sent
+            if alrt.next_start_date() < remind_limit]
 
 if __name__ == '__main__':
 
-    Alert(email='emile.caron@outlook.com', date=datetime(day=5, month=10, year=1991))
+    Alert(
+        email='emile.caron@outlook.com',
+        date=datetime(day=5, month=10, year=1991)
+    )

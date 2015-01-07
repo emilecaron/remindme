@@ -6,7 +6,6 @@ Mongo connection stuff
 Email sending stuff
 """
 
-from os import path
 try:
     from configparser import ConfigParser
 except ImportError:
@@ -33,7 +32,8 @@ class ConnectionContext:
 
     def __exit__(self, type, exc, trace):
         self.con.disconnect()
-        if self.safe: return False
+        if self.safe:
+            return False
 
 
 def send_email(to, subject, html, sender='noreply'):
@@ -51,10 +51,10 @@ def send_email(to, subject, html, sender='noreply'):
 
 
 def send_alert(alert):
-
+    time_format = config.get('misc', 'email_date_format')
     subject = 'This is your RemindMe alert'
     data = {
-        'start_date': alert.next_start_date().strftime(config.get('misc', 'email_date_format')),
+        'start_date': alert.next_start_date().strftime(time_format),
         'email': alert.email
     }
     body = render_template('email.html', **data)
@@ -64,6 +64,5 @@ def send_alert(alert):
 
 
 if __name__ == '__main__':
-
-    #send_email('smilzor@gmail.com', 'subject', '<h1>Body</h1>')
+    # send_email('smilzor@gmail.com', 'subject', '<h1>Body</h1>')
     print(config.get('misc', 'email_date_format'))

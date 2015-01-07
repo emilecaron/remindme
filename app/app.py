@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from os import environ
-import json
 
 from flask import Flask, request, render_template, jsonify
 from flask.ext.heroku import Heroku
@@ -34,17 +33,17 @@ def register():
 
     return 'no', 500
 
+
 @app.route("/send")
 def send_alerts():
     sent = []
-    
+
     with ConnectionContext(safe=False):
         for alert in Alert.alerts_to_send():
             send_alert(alert)
             sent.append(alert.email)
 
     return jsonify({'emails_sent': sent})
-
 
 
 if __name__ == "__main__":
