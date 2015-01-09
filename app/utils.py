@@ -7,7 +7,10 @@ Email sending stuff
 """
 
 from os import path
-from configparser import ConfigParser
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser
 
 from mongoengine import connect
 import requests

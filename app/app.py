@@ -20,7 +20,6 @@ def index():
 
 @app.route("/api/register", methods=['POST'])
 def register():
-    print('Welcome World')
     status = None
     data = request.json
 
@@ -49,5 +48,4 @@ def send_alerts():
 
 
 if __name__ == "__main__":
-    print('Hello World')
     app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))
