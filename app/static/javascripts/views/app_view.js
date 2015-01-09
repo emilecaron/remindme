@@ -5,8 +5,12 @@ module.exports = Backbone.View.extend({
 
     el: $("#site-wrapper"),
 
-    initialize: function() {
-        new FormView({model: new Form}).render();
+    render: function() {
+        new FormView({
+            model: new Form()
+        }).render();
+
+        return this;
     }
 
   });
