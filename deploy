@@ -5,8 +5,7 @@ source venv/bin/activate
 pip freeze > requirements.txt
 
 # Generate js bundle
-rm app/static/javascripts/bundle.js
-browserify app/static/javascripts/*.js -o app/static/javascripts/bundle.js
+browserify -e app/static/javascripts/main.js > app/static/javascripts/bundle.js
 
 # Create & move to deployment dir
 rm -rf /tmp/heroku_remindme

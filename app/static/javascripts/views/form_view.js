@@ -1,52 +1,6 @@
+var MsgView = require('./message_view.js');
 
-$(function(){
-
-  var Form = Backbone.Model.extend({
-
-    url: '/api/register',
-
-    defaults: function() {
-      return {email:'smilzor@gmail.com',date:'1991-05-10'}; // Debug values
-      return {date: '', email:''};
-    },
-
-    validate: function(attrs, options) {
-      // Using Mongoengine email validation
-      var emailRe = /(^[-!#$%&'*+\/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+\/=?^_`{}|~0-9A-Z]+)*|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-011\013\014\016-\177])*")@(?:[A-Z0-9](?:[A-Z0-9-]{0,253}[A-Z0-9])?\.)+[A-Z]{2,22}$/i
-      if (!attrs.email.match(emailRe))
-        return attrs.email + " isn't a valid email"; 
-
-      return null;
-    },
-
-  });
-  
-
-  var MsgView = Backbone.View.extend({
-
-    template: _.template($('#msg-template').html()),
-
-    events: {
-      "click .close"      : "close"
-    },
-
-    initialize: function() {
-      this.listenTo(this.model, 'destroy', this.remove);
-    },
-
-    render: function() {
-      console.log('rendering msg');
-      this.$el.html(this.template(this.model.toJSON()));
-      return this;
-    },
-
-    close: function() {
-      this.model.destroy();
-    }
-
-  });
-
-  var FormView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
     
     el: $('#form-div'),
 
@@ -110,20 +64,4 @@ $(function(){
         date: this.date.val()
       });
     }
-
-  });
-
-  var AppView = Backbone.View.extend({
-
-    el: $("#site-wrapper"),
-
-    initialize: function() {
-        new FormView({model: new Form}).render();
-    }
-
-  });
-
-  var App = new AppView;
-
 });
-
