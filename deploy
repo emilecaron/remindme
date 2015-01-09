@@ -1,25 +1,33 @@
 #!/bin/bash
 
+# Generate requirements.txt 
 source venv/bin/activate
 pip freeze > requirements.txt
 
+# Generate js bundle
+rm app/static/javascripts/bundle.js
+browserify app/static/javascripts/*.js -o app/static/javascripts/bundle.js
 
+# Create & move to deployment dir
 rm -rf /tmp/heroku_remindme
 cp -r ../remindme /tmp/heroku_remindme
 cd /tmp/heroku_remindme
 
+# Create needed files
 rm -rf .git .gitignore
 echo "venv" >> .gitignore
 echo "*.pyc" >> .gitignore
 echo "web: python app/app.py --log-file -" > Procfile
 
+# Initialize git
 git init
 heroku git:remote -a zozor-remindme
 
-
+# Commit and push
 git add .
 git commit -am "release" | grep release
 git push -f heroku master
-heroku ps:scale web=1
 
+# Run
+heroku ps:scale web=1
 heroku logs -t
