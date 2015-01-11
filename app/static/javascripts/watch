@@ -1,0 +1,1 @@
+watchify -e main.coffee -o bundle.js --debug --verbose -t coffeeify
