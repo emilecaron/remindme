@@ -1,11 +1,11 @@
-MsgView = require './message_view.js'
+MsgView = require './message_view.coffee'
 
 
 class FormView extends Backbone.View
     
     el: $ '#form-div'
 
-    template: _.template($('#form-template').html())
+    template: _.template $('#form-template').html()
 
     events:
       "click .btn": "submit"
@@ -18,7 +18,7 @@ class FormView extends Backbone.View
       @listenTo @model, 'destroy', @remove
 
     render: ->
-      @$el.html(@template(@model.toJSON()))
+      @$el.html @template @model.toJSON()
       @email = @$ '#email'
       @date = @$ '#date'
       @
