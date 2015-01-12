@@ -1,4 +1,4 @@
-FormView = require('./form_view.js')
+FormView = require './form_view.coffee'
 Form = require '../models/form.coffee'
 
 class AppView extends Backbone.View
