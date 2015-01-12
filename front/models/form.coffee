@@ -23,8 +23,8 @@ class Form extends Backbone.Model
     if not attrs.email.match(emailRe)
       console.log "isnt a valid mmmail"
       attrs.email + " isn't a valid email"
-    else
-      null
+    #else
+    #  null
 
 
 module.exports = Form
