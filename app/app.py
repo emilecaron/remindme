@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
+
 from os import environ
 
 from flask import Flask, request, render_template, jsonify
-from flask.ext.heroku import Heroku
 
 from alert import Alert
+from scheduler import Scheduler
 from utils import ConnectionContext, send_alert
 
 
 app = Flask(__name__)
-Heroku(app)
 
 
 @app.route("/")
@@ -47,4 +47,7 @@ def send_alerts():
 
 
 if __name__ == "__main__":
+    scheduler = Scheduler()
+    scheduler.add_task('send_mail_task', hours=2)
+    scheduler.start(async=True, daemon=True)
     app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))
