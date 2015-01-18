@@ -7,8 +7,8 @@ class Form extends Backbone.Model
     email: 'example@email.com'
     date: '2015-01-31'
 
-  validationRe: ->
-    email = /// # Mongoengine email validation regex
+  validationRe:
+    email: /// # Mongoengine email validation regex
       (^[-!#$%&'*+\/=?^_`{}|~0-9A-Z]+
       (\.[-!#$%&'*+\/=?^_`{}|~0-9A-Z]+)*
       |^"([\001-\010\013\014\016-\037!#-\[\]-\177]
@@ -21,7 +21,10 @@ class Form extends Backbone.Model
 
   validate: (attrs, options) ->
 
-    if not attrs.email.match(@validationRe.email)
+    if attrs.email == @defaults().email
+      "You have to enter your email address!"
+
+    else if not attrs.email.match(@validationRe.email)
       attrs.email + " isn't a valid email"
 
 
