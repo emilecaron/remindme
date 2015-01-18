@@ -3,9 +3,13 @@
 """
 Mongo connection stuff
         &
-Email sending stuff
+  Email sending stuff
+        &
+      Utils
 """
 
+from functools import reduce
+from fractions import gcd
 try:
     from configparser import ConfigParser
 except ImportError:
@@ -63,6 +67,9 @@ def send_alert(alert):
     alert.update_sent()
 
 
+def lcm(numbers):
+    return reduce(lambda x, y: (x * y) / gcd(x, y), numbers, 1)
+
+
 if __name__ == '__main__':
-    # send_email('smilzor@gmail.com', 'subject', '<h1>Body</h1>')
     print(config.get('misc', 'email_date_format'))

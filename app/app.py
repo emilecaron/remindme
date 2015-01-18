@@ -5,6 +5,7 @@ from os import environ
 from flask import Flask, request, render_template, jsonify
 
 from alert import Alert
+from tasks import Scheduler
 from utils import ConnectionContext, send_alert
 
 
@@ -46,4 +47,7 @@ def send_alerts():
 
 
 if __name__ == "__main__":
+    scheduler = Scheduler()
+    scheduler.add_task('send_alerts', hours=12)
+    scheduler.start(async=True)
     app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))
