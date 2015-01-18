@@ -18,7 +18,7 @@ cd /tmp/heroku_remindme
 rm -rf .git .gitignore
 echo "venv" >> .gitignore
 echo "*.pyc" >> .gitignore
-echo "web: python app/app.py --log-file -" > Procfile
+echo "web: newrelic-admin run-program python app/app.py --log-file -" > Procfile
 
 # Initialize git
 git init

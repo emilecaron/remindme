@@ -6,54 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>alerte rouge</title>
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/stuff.css')}}"/>
 </head>
-
 
 
 <body>
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
+
         <div class="navbar-header"> 
           <a class="navbar-brand" href="#">Remind me</a>
         </div>
+
+        <div id="form-div" class="navbar-right"></div>
+
       </div>
     </nav>
 
-    <div class="site-wrapper">
-      <div class="site-wrapper-inner">
-        <div class="cover-container">
-          <div class="inner cover">
+
+    <div id="alert">
+      <div id='msg-div'></div>
+    </div>
 
 
-            
-              the reminder for gentlemen
+    <div id="page" class="container-fluid">
 
-            <section>
-              <div id="form-div"></div>
-            </section>
+      <div class="row vertical-align">
+        <div class="container-fluid col-md-6">
+          <h1>the reminder for gentlemen</h1>
+          <p>Explanations about the meaning of life and stuff</p>
+        </div>
 
-            <section>
-              <div id='msg-div'>
-            </section>
-
-            <section>
-              <img src="{{url_for('static', filename='meme.png')}}" />
-            </section>
-            
-          </div>
-          <div class="mastfoot">
-            <div class="inner">
-            
-              <footer>
-                <p>using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://backbonejs.org/">Backbone</a>, <a href="http://getbootstrap.com/">Bootstrap</a> and more, by <a href="https://github.com/emilecaron/remindme">Zozor</a>.</p>
-              </footer>
-            
-            </div>
-          </div>
+        <div class="container-fluid col-md-6">
+          <img src="{{url_for('static', filename='meme.png')}}" class="img-responsive img-rounded">
         </div>
       </div>
     </div>
+
+
+    <nav id="footer" class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container text-center">
+          <p class="navbar-text" style="float: none;">using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://backbonejs.org/">Backbone</a>, <a href="http://getbootstrap.com/">Bootstrap</a> and more, by <a href="https://github.com/emilecaron/remindme">Zozor</a>.</p>
+      </div>
+    </nav>
+
     <script src="{{url_for('static', filename='vendor/underscore.js')}}"></script>
     <script src="{{url_for('static', filename='vendor/jquery-1.11.2.js')}}"></script>
     <script src="{{url_for('static', filename='vendor/backbone.js')}}"></script>
@@ -66,7 +63,7 @@
 <!-- Templates -->
 <script type="text/template" id="form-template">
 <div class="view">
-<form role="form" action="javascript:void(0);" class="lead form-inline">
+<form role="form" action="javascript:void(0);" class="lead navbar-form">
   <div class="form-group">
     <input type="date" class="form-control" id="date" required autofocus value="<%- date %>"></input>
     <input type="email" class="form-control" id="email" placeholder="email..." required value="<%- email %>" ></input>
