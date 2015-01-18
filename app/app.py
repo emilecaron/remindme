@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
+
 from os import environ
 
 from flask import Flask, request, render_template, jsonify
-from flask.ext.heroku import Heroku
 
 from alert import Alert
 from utils import ConnectionContext, send_alert
 
 
 app = Flask(__name__)
-Heroku(app)
 
 
 @app.route("/")
