@@ -56,7 +56,7 @@ class Scheduler(object):
         self._thread = threading.Thread(target=self._loop)
         self._thread.daemon = daemon
         self._thread.start()
-        print('back to main')
+        print('Scheduler thread started')
 
     def _loop(self):
         """
@@ -88,7 +88,6 @@ class Scheduler(object):
             except AttributeError:
                 raise Exception('Task %s isn\'t valid.' % name)
             except Exception as e:
-                # Loop goes on
                 # TODO catch Attribute/ImportError from inside task
                 print('Task failed')
                 print(e)
@@ -101,8 +100,3 @@ class Scheduler(object):
         if len(durations) == 1:
             return durations[0]
         return gcd(*durations)
-
-if __name__ == "__main__":
-    scheduler = Scheduler()
-    scheduler.add_task('send_mail_task', seconds=4)
-    scheduler.start(async=True)

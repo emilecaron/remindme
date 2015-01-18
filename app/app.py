@@ -47,7 +47,11 @@ def send_alerts():
 
 
 if __name__ == "__main__":
+
+    # Start separate scheduler
     scheduler = Scheduler()
-    scheduler.add_task('send_mail_task', hours=2)
+    scheduler.add_task('send_mail_task', minutes=10)
     scheduler.start(async=True, daemon=True)
+
+    # Start server
     app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))

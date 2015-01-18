@@ -1,4 +1,8 @@
 /*
+ * Base CSS from bootstrap website examples
+ */
+
+/*
  * Globals
  */
 
@@ -75,6 +79,13 @@ input {
   font-weight: bold;
 }
 
+/*
+ * Image
+ */
+img {
+  border-radius: 4px;
+  padding-top: 30px;
+}
 
 /*
  * Footer

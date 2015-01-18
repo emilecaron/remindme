@@ -5,9 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>alerte rouge</title>
-    <!--
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap.css')}}"/>
     <link rel="stylesheet" href="{{url_for('static', filename='css/cover.css')}}"/>
 </head>
@@ -19,8 +16,10 @@
           <div class="inner cover">
 
             <header>      
-              <h1 class="cover-heading">Remind me</h1>
-            </header>   
+              <h1 class="cover-heading">Remind me.</h1>
+              the reminder for gentlemen
+              <h3> </h3>
+            </header>  
 
             <section>
               <div id="form-div"></div>
@@ -29,13 +28,17 @@
             <section>
               <div id='msg-div'>
             </section>
+
+            <section>
+              <img src="{{url_for('static', filename='meme.png')}}" />
+            </section>
             
           </div>
           <div class="mastfoot">
             <div class="inner">
             
               <footer>
-                <p>using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://backbonejs.org/">Backbone</a>, <a href="http://getbootstrap.com/">Bootstrap</a> and more, by <a href="https://github.com/emilecaron">Zozor</a>.</p>
+                <p>using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://backbonejs.org/">Backbone</a>, <a href="http://getbootstrap.com/">Bootstrap</a> and more, by <a href="https://github.com/emilecaron/remindme">Zozor</a>.</p>
               </footer>
             
             </div>
@@ -55,7 +58,7 @@
 <!-- Templates -->
 <script type="text/template" id="form-template">
 <div class="view">
-<form role="form" action="javascript:void(0);" class="lead">
+<form role="form" action="javascript:void(0);" class="lead form-inline">
   <div class="form-group">
     <input type="date" class="form-control" id="date" required autofocus value="<%- date %>"></input>
     <input type="email" class="form-control" id="email" placeholder="email..." required value="<%- email %>" ></input>

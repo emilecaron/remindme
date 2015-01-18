@@ -70,7 +70,3 @@ def send_alert(alert):
 def lcm(numbers):
     """ Least common multiple """
     return reduce(lambda x, y: (x * y) / gcd(x, y), numbers, 1)
-
-
-if __name__ == '__main__':
-    print(config.get('misc', 'email_date_format'))
