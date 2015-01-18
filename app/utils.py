@@ -68,6 +68,7 @@ def send_alert(alert):
 
 
 def lcm(numbers):
+    """ Least common multiple """
     return reduce(lambda x, y: (x * y) / gcd(x, y), numbers, 1)
 
 
