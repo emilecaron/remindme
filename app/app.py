@@ -47,6 +47,7 @@ def send_alerts():
 
 
 if __name__ == "__main__":
+    print('Starting app')
 
     # Start separate scheduler
     scheduler = Scheduler()
