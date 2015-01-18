@@ -31,11 +31,20 @@ class Alert(Document):
 
     def next_start_date(self):
         now = datetime.now()
+
+        past = False
+        if now > self.date:
+            past = True
+
         delta = abs(now - self.date)
         delta_days = delta.total_seconds() / 86400
         freq = timedelta(days=28)
 
-        next_date = self.date + (1 + delta_days // 28) * freq
+        next_date = self.date
+        if past:
+            next_date += (1 + delta_days // 28) * freq
+        else:
+            next_date -= (delta_days // 28) * freq
 
         if next_date < now:
             raise Exception('something wrong with your maths zozor')
