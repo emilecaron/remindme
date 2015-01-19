@@ -3,6 +3,7 @@
 from os import environ
 
 from flask import Flask, request, render_template, jsonify
+from requests import ConnectionError
 
 from alert import Alert
 from scheduler import Scheduler
@@ -41,9 +42,12 @@ def send_alerts():
 
     with ConnectionContext(safe=False):
         for alert in Alert.alerts_to_send():
-            send_email(**alert.email_data)
-            alert.update_sent()
-            sent.append(alert.email)
+            try:
+                send_email(**alert.email_data)
+                alert.update_sent()
+                sent.append(alert.email)
+            except ConnectionError:
+                pass
 
     return jsonify({'emails_sent': sent})
 
