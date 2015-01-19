@@ -56,7 +56,7 @@ def send_email(to, subject, html, sender='noreply'):
 
 def send_alert(alert):
     time_format = config.get('misc', 'email_date_format')
-    subject = 'This is your RemindMe alert'
+    subject = 'This is your Remind me alert'
     data = {
         'start_date': alert.next_start_date().strftime(time_format),
         'email': alert.email

@@ -6,7 +6,8 @@ from flask import Flask, request, render_template, jsonify
 
 from alert import Alert
 from scheduler import Scheduler
-from utils import ConnectionContext, send_alert
+from utils import ConnectionContext
+from mail_sender import send_email
 
 
 app = Flask(__name__)
@@ -40,7 +41,8 @@ def send_alerts():
 
     with ConnectionContext(safe=False):
         for alert in Alert.alerts_to_send():
-            send_alert(alert)
+            send_email(**alert.email_data)
+            alert.update_sent()
             sent.append(alert.email)
 
     return jsonify({'emails_sent': sent})
@@ -52,7 +54,7 @@ if __name__ == "__main__":
     # Start separate scheduler
     scheduler = Scheduler()
     scheduler.add_task('send_mail_task', minutes=10)
-    scheduler.start(async=True, daemon=True)
+    scheduler.start(async=True, daemon=True, start_delay=5)
 
     # Start server
     app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))

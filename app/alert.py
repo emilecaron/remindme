@@ -3,6 +3,9 @@
 from datetime import datetime, timedelta
 
 from mongoengine import Document, EmailField, DateTimeField
+from flask import render_template
+
+from utils import config
 
 
 class Alert(Document):
@@ -59,15 +62,21 @@ class Alert(Document):
         remind_limit = now + timedelta(days=3)
 
         not_sent = Alert.objects(last_sent__not__gt=last_sent_limit)
-        print(len(not_sent))
 
-        return [
-            alrt for alrt in not_sent
-            if alrt.next_start_date() < remind_limit]
+        return filter(lambda a: a.next_start_date() < remind_limit, not_sent)
 
-if __name__ == '__main__':
+    @property
+    def email_data(self):
+        time_format = config.get('misc', 'email_date_format')
+        subject = 'This is your Remind me alert'
+        context = {
+            'start_date': self.next_start_date().strftime(time_format),
+            'email': self.email
+        }
+        body = render_template('email.html', **context)
 
-    Alert(
-        email='emile.caron@outlook.com',
-        date=datetime(day=5, month=10, year=1991)
-    )
+        return {
+            'to': self.email,
+            'subject': subject,
+            'html': body
+        }

@@ -36,10 +36,13 @@ class Scheduler(object):
         self._reset_delta = lcm(deltas)
         print('setting reset_delta to %s' % self._reset_delta)
 
-    def start(self, async=True, daemon=False):
+    def start(self, async=True, daemon=False, start_delay=0):
         """
         Set daemon to true for scheduler to be shut down with main process
         """
+
+        self._start_delay = start_delay
+
         if not async:
             raise NotImplementedError('Sync mode not implemented')
         if self._thread:
@@ -52,7 +55,6 @@ class Scheduler(object):
         self._sleep_time = self._compute_sleep_time()
         print('Scheduler will run tasks every %s seconds' % self._sleep_time)
 
-        # TODO Delete previous thread if needed (+ get _total_seconds ??)
         self._thread = threading.Thread(target=self._loop)
         self._thread.daemon = daemon
         self._thread.start()
@@ -62,6 +64,7 @@ class Scheduler(object):
         """
         Thread executed loop
         """
+        sleep(self._start_delay)
         while True:
             print(self._seconds)
             self.run_tasks()
@@ -72,6 +75,7 @@ class Scheduler(object):
         """
         force: run all tasks without considering time spent
         """
+
         tasks = [
             cmd
             for cmd, delta in self._tasks
