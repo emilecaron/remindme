@@ -2,5 +2,4 @@ venv
 *.pyc
 app/static/javascripts/bundle.js
 docs/
-app/static/vendor/
 .env
