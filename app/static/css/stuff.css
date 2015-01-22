@@ -9,3 +9,7 @@ body {
     top: 60px;
     z-index: 100;
 }
+
+.folded > .foldable {
+    display: none;
+}

@@ -7,17 +7,23 @@ class FormView extends Backbone.View
 
     template: _.template $('#form-template').html()
 
+    
     events:
       "click .btn": "submit"
 
     initialize: ->
+      @folded = true
       @listenTo @model, 'error', @onSyncError
       @listenTo @model, 'sync', @onSync
       @listenTo @model, 'invalid', @onValidationError
       @listenTo @model, 'destroy', @remove
 
     render: ->
-      @$el.html @template @model.toJSON()
+      context = _.extend @model.toJSON(),
+        'folded': @folded
+      @$el.html @template context
+      console.log 'context:', context
+
       @email = @$ '#email'
       @date = @$ '#date'
       @
@@ -35,9 +41,8 @@ class FormView extends Backbone.View
       @showMsg
           type: "danger"
           title: "Sorry!"
-          msg: if data.status == 409 then "already registered" else "server is taking a break."
+          msg: if data.status == 409 then "already registered." else "server is taking a break."
       
-
     onValidationError: (model, error) ->
       @showMsg
           type: 'warning'
@@ -51,9 +56,15 @@ class FormView extends Backbone.View
           msg: "registered successfully!"
 
     submit: (e) ->
-      @model.save
-        email: @email.val()
-        date: @date.val()
+      if @folded
+        @folded = false
+        @render()
+      else
+        @model.save
+          email: @email.val()
+          date: @date.val()
+
+
 
 
 module.exports = FormView

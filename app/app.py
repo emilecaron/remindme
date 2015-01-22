@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from os import environ
+from os import environ as env
 
 from flask import Flask, request, render_template, jsonify
 from requests import ConnectionError
@@ -61,4 +61,4 @@ if __name__ == "__main__":
     scheduler.start(async=True, daemon=True, start_delay=5)
 
     # Start server
-    app.run(host='0.0.0.0', debug=True, port=int(environ.get("PORT", 5000)))
+    app.run(host='0.0.0.0', debug=True, port=int(env.get("PORT", 5000)))

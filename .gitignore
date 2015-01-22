@@ -1,6 +1,6 @@
 venv
 *.pyc
-app/settings.cfg
 app/static/javascripts/bundle.js
 docs/
 app/static/vendor/
+.env

@@ -12,6 +12,12 @@ $ ->
 
         el: $ "#site-wrapper"
 
+        events:
+            'all': "debug"
+
+        debug: (a)->
+          console.log a
+
         render: ->
             form = new FormView
                 model: new Form()
