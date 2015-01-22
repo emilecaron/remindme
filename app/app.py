@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from os import environ as env
+import sys
 
 from flask import Flask, request, render_template, jsonify
 from requests import ConnectionError
@@ -53,12 +54,15 @@ def send_alerts():
 
 
 if __name__ == "__main__":
-    print('Starting app')
+    app.debug = '-d' in sys.argv
 
     # Start separate scheduler
+    print('Starting scheduler')
     scheduler = Scheduler()
     scheduler.add_task('send_mail_task', minutes=10)
     scheduler.start(async=True, daemon=True, start_delay=5)
 
     # Start server
-    app.run(host='0.0.0.0', debug=True, port=int(env.get("PORT", 5000)))
+
+    print('Starting app with debug set to %s' % app.debug)
+    app.run(host='0.0.0.0', port=int(env.get("PORT", 5000)))

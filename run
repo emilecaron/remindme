@@ -1,2 +1,2 @@
 source ./.env
-python app/app.py --debug
+python app/app.py -d
