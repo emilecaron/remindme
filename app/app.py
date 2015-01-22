@@ -82,5 +82,5 @@ if __name__ == "__main__":
     scheduler.start(async=True, daemon=True, start_delay=5)
 
     # Start server
-    print('Starting app with debug=%s and cdn=%s' % (app.debug, online)
+    print('Starting app with debug=%s and cdn=%s' % (app.debug, online))
     app.run(host='0.0.0.0', port=int(env.get("PORT", 5000)))
