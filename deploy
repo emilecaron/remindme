@@ -16,6 +16,5 @@ node_modules/browserify/bin/cmd.js -e front/main.coffee -o app/static/javascript
 # Run
 git push -f heroku master && heroku ps:scale web=1
 
-
-
+# Switch to logs
 heroku logs -t

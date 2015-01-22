@@ -1,5 +1,4 @@
 venv
 *.pyc
-app/static/javascripts/bundle.js
 docs/
 .env
