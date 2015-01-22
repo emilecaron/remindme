@@ -2,3 +2,4 @@ venv
 *.pyc
 docs/
 .env
+node_modules/

@@ -10,8 +10,8 @@
 source venv/bin/activate
 pip freeze > requirements.txt
 
-# Generate js bundle
-node_modules/browserify/bin/cmd.js -e front/main.coffee -o app/static/javascripts/bundle.js --verbose -t coffeeify
+# Generate minified js bundle
+node_modules/browserify/bin/cmd.js -e front/main.coffee --verbose -t coffeeify | node_modules/uglify/bin/uglify > app/static/javascripts/bundle.js
 
 # Run
 git push -f heroku master && heroku ps:scale web=1
