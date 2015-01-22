@@ -36,7 +36,7 @@ def cdn_proxy(filename):
     if online and filename in cdns:
         return redirect(cdns[filename], 302)
 
-    return redirect(url_for('static', filename=filename))
+    return redirect(url_for('static', filename=filename), 200)
 
 
 @app.route("/api/register", methods=['POST'])
@@ -75,8 +75,6 @@ def send_alerts():
 if __name__ == "__main__":
     app.debug = '-d' in sys.argv
 
-    print('Online mode: %s' % online)
-
     # Start separate scheduler
     print('Starting scheduler')
     scheduler = Scheduler()
@@ -84,6 +82,5 @@ if __name__ == "__main__":
     scheduler.start(async=True, daemon=True, start_delay=5)
 
     # Start server
-
-    print('Starting app with debug set to %s' % app.debug)
+    print('Starting app with debug=%s and cdn=%s' % (app.debug, online)
     app.run(host='0.0.0.0', port=int(env.get("PORT", 5000)))
