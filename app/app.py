@@ -17,9 +17,9 @@ online = online()
 
 cdns = {
     'jquery-1.11.2.min.js': 'https://code.jquery.com/jquery-1.11.2.min.js',
-    'backbone-min.js': 'http://backbonejs.org/backbone-min.js',
+    'backbone-min.js': 'https://backbonejs.org/backbone-min.js',
     'bootstrap.min.css': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css',
-    'underscore-min.js': 'http://underscorejs.org/underscore-min.js'
+    'underscore-min.js': 'https://underscorejs.org/underscore-min.js'
 }
 
 
