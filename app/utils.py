@@ -17,6 +17,7 @@ except ImportError:
     from ConfigParser import ConfigParser
 
 from mongoengine import connect
+import requests
 
 
 EMAIL_DATE_FORMAT = ""
@@ -42,3 +43,17 @@ class ConnectionContext:
 def lcm(numbers):
     """ Least common multiple """
     return reduce(lambda x, y: (x * y) / gcd(x, y), numbers, 1)
+
+
+def online(url='http://www.google.fr'):
+    '''
+    Get-ping utility
+    '''
+    online = False
+    try:
+        requests.get(url, timeout=1)
+        online = True
+    except requests.ConnectionError:
+        raise
+        pass
+    return online

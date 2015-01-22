@@ -3,21 +3,40 @@
 from os import environ as env
 import sys
 
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 from requests import ConnectionError
 
 from alert import Alert
 from scheduler import Scheduler
-from utils import ConnectionContext
+from utils import ConnectionContext, online
 from mail_sender import send_email
 
 
 app = Flask(__name__)
+online = online()
+
+cdns = {
+    'jquery-1.11.2.min.js': 'https://code.jquery.com/jquery-1.11.2.min.js',
+    'backbone-min.js': 'http://backbonejs.org/backbone-min.js',
+    'bootstrap.min.css': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css',
+    'underscore-min.js': 'http://underscorejs.org/underscore-min.js'
+}
 
 
 @app.route("/")
 def index():
     return render_template('page.html')
+
+
+@app.route('/cdn/<filename>')
+def cdn_proxy(filename):
+    '''
+    Homemade local cdn when working offline
+    '''
+    if online and filename in cdns:
+        return redirect(cdns[filename], 302)
+
+    return redirect(url_for('static', filename=filename))
 
 
 @app.route("/api/register", methods=['POST'])
@@ -55,6 +74,8 @@ def send_alerts():
 
 if __name__ == "__main__":
     app.debug = '-d' in sys.argv
+
+    print('Online mode: %s' % online)
 
     # Start separate scheduler
     print('Starting scheduler')

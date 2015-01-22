@@ -14,7 +14,7 @@ pip freeze > requirements.txt
 node_modules/browserify/bin/cmd.js -e front/main.coffee --verbose -t coffeeify | node_modules/uglify/bin/uglify > app/static/javascripts/bundle.js
 
 # Run
-git push -f heroku master && heroku ps:scale web=1
+git push heroku master && heroku ps:scale web=1
 
 # Switch to logs
 heroku logs -t
