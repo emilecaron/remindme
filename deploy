@@ -10,24 +10,24 @@ pip freeze > requirements.txt
 node_modules/browserify/bin/cmd.js -e front/main.coffee -o app/static/javascripts/bundle.js --verbose -t coffeeify
 
 # Create & move to deployment dir
-rm -rf /tmp/heroku_remindme
-cp -r ../remindme /tmp/heroku_remindme
-cd /tmp/heroku_remindme
+#rm -rf /tmp/heroku_remindme
+#cp -r ../remindme /tmp/heroku_remindme
+#cd /tmp/heroku_remindme
 
 # Create needed files
-rm -rf .git .gitignore
-echo "venv" >> .gitignore
-echo "*.pyc" >> .gitignore
-echo "web: newrelic-admin run-program python app/app.py --log-file -" > Procfile
+#rm -rf .git .gitignore
+#echo "venv" >> .gitignore
+#echo "*.pyc" >> .gitignore
+#echo "web: newrelic-admin run-program python app/app.py --log-file -" > Procfile
 
 # Initialize git
-git init
-heroku git:remote -a zozor-remindme
+#git init
+#heroku git:remote -a zozor-remindme
 
 # Commit and push
-git add .
-git commit -am "release" | grep release
-git push -f heroku master
+#git add .
+#git commit -am "release" | grep release
+git push heroku master
 
 # Run
 heroku ps:scale web=1

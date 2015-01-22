@@ -1,0 +1,1 @@
+web: newrelic-admin run-program python app/app.py --log-file -
