@@ -4,7 +4,6 @@ from os import environ as env
 import sys
 
 from flask import Flask, request, render_template, jsonify, redirect, url_for
-from requests import ConnectionError
 
 from alert import Alert
 from scheduler import Scheduler
@@ -45,7 +44,7 @@ def register():
     data = request.json
 
     with ConnectionContext():
-        status = Alert(**data).save_unique()
+        status = Alert(**data).save(unique=True)
 
     if status == 'ok':
         return jsonify(data)
@@ -62,12 +61,9 @@ def send_alerts():
 
     with ConnectionContext(safe=False):
         for alert in Alert.alerts_to_send():
-            try:
-                send_email(**alert.email_data)
+            if not send_email(**alert.email_data):
                 alert.update_sent()
                 sent.append(alert.email)
-            except ConnectionError:
-                pass
 
     return jsonify({'emails_sent': sent})
 

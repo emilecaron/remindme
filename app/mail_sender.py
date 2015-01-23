@@ -16,5 +16,10 @@ def send_email(to, subject, html, sender='noreply'):
         'html': html,
         'from': sender
     }
-    rep = requests.get(url, params=params)
-    rep.raise_for_status()
+    try:
+        rep = requests.get(url, params=params)
+        rep.raise_for_status()
+    except requests.ConnectionError:
+        return True
+
+

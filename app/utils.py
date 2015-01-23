@@ -49,11 +49,8 @@ def online(url='http://www.google.fr'):
     '''
     Get-ping utility
     '''
-    online = False
     try:
         requests.get(url, timeout=1)
-        online = True
+        return True
     except requests.ConnectionError:
-        raise
-        pass
-    return online
+        return False
