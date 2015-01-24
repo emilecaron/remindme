@@ -35,7 +35,8 @@ def cdn_proxy(filename):
     if online and filename in cdns:
         return redirect(cdns[filename], 302)
 
-    return redirect(url_for('static', filename=filename), 200)
+    print("using local static file for %s" % filename)
+    return redirect(url_for('static', filename=filename), 302)
 
 
 @app.route("/api/register", methods=['POST'])

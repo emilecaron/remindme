@@ -4,24 +4,33 @@ $ ->
     otherwise templates from page.html won't be available.
     ###
     
-    FormView = require './views/form_view.coffee'
-    Form = require './models/form.coffee'
+    #FormView = require './views/form_view.coffee'
+    #Form = require './models/form.coffee'
+
+    Header = require './views/header.coffee'
+    Page = require './views/page.coffee'
 
 
     class AppView extends Backbone.View
 
-        el: $ "#site-wrapper"
+        pages:
+            #remindme: new RemindmePage()
+            remindme: new Page()
 
-        events:
-            'all': "debug"
+        currentPage: null
 
-        debug: (a)->
-          console.log a
+        switchPage: (page)
+
+        initialize: ->
+            console.log 'Initializing app'
+            @header = new Header()
 
         render: ->
-            form = new FormView
-                model: new Form()
-            form.render()
+            console.log 'Rendering app'
+            console.log @pages
+            @currentPage.render() if @currentPage
+            @header.render()
 
-    App = new AppView().render()
+    window.app = new AppView()
+    window.app.render()
 

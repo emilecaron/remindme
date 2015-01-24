@@ -1,15 +1,24 @@
-body {
-    padding-top: 70px;
-    padding-bottom: 70px;
+#page {
+    padding-bottom: 50px;
 }
 
-#alert {
+#footer {
     position: fixed;
-    right: 10px;
-    top: 60px;
-    z-index: 100;
+    bottom: 0px;
+    height: 50px;
+    width: 100%;
 }
 
-.folded > .foldable {
-    display: none;
+#header {
+    position: fixed;
+    top: 0px;
+    height: 50px;
+    width: 100%;
 }
+
+#header-caption {
+}
+
+.header-link {
+}
+
