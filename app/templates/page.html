@@ -35,13 +35,15 @@
 </body>
 
 <script type="text/template" id="header-template">
-    <div id="header-caption">Chez Papa</div>
-    <% _.each(pages, function(page){ %>
-        <a class='header-link'><%= page.title %></a>
-    <% }); %>
+    <div id="header-caption" class="header-el">Chez Papa</div>
+    <div id="header-links"></ul>
 </script>
 
 <!--
+    <% _.each(pages, function(page){ %>
+        <a class='header-link'><%= page.title %></a>
+    <% }); %>
+
 <body>
 
     <nav class="navbar navbar-default navbar-fixed-top">

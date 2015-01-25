@@ -11,14 +11,36 @@
 
 #header {
     position: fixed;
-    top: 0px;
-    height: 50px;
-    width: 100%;
+    z-index: 100;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    height: 60px;
+    min-width: 500px;
+    border-radius: 3px;
+    border: 1px solid #bbb;
+    background: #eee;
 }
 
 #header-caption {
+    font-size: 16px;
+    width: 100px;
+    height: 60px;
 }
 
-.header-link {
+.header-link:hover {
+    background: #ddd;
+}
+
+.header-el {
+    display: block;
+    height: 60px;
+    font-size: 11px;
+    line-height: 50px;
+    text-transform: uppercase;
+    position: relative;
+    float: left;
+    padding: 0 20px;
+    border-right: 1px solid #aaa;
 }
 
