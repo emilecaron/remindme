@@ -4,8 +4,8 @@
   <head>
       <meta charset="utf-8">
       <title>Remind me, the gentleman app</title>
-      <!--<link rel="stylesheet" href="cdn/bootstrap.min.css"/>-->
-      <link rel="stylesheet" href="{{url_for('static', filename='css/stuff.css')}}"/>
+      <!--<link rel="stylesheet" href="{{url_for('static', filename='css/stuff.css')}}"/>-->
+      <link rel="stylesheet" href="cdn/bootstrap.min.css"/>
 
       <script type="text/javascript">
           var _gaq = _gaq || [];
@@ -28,25 +28,30 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
-    <div id="header"></div>
+    <div id="header" role="navigation" class="navbar navbar-default"></div>
     
     <div id="page"></div>
 
-    <div id="footer">
-        <p>using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://backbonejs.org/">Backbone</a>, <a href="http://getbootstrap.com/">Bootstrap</a> and more, by <a href="https://github.com/emilecaron/remindme">Zozor</a>.</p>
-        <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
-
-    </div>
 
     <script src="cdn/underscore-min.js"></script>
     <script src="cdn/jquery-1.11.2.min.js"></script>
     <script src="cdn/backbone-min.js"></script>
+    <script src="cdn/bootstrap.min.js"></script>
     <script src="{{url_for('static', filename='javascripts/bundle.js')}}"></script>
 </body>
 
 <script type="text/template" id="header-template">
-    <div id="header-caption" class="header-el">Chez Papa</div>
-    <div id="header-links"></ul>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a id="header-caption" class="navbar-brand" href="#">Chez Papa</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul id="header-links" class="nav navbar-nav"></ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div></a></li>
+      </ul>
+    </div>
+  </div>
 </script>
 
 <!--

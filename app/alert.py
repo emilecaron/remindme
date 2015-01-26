@@ -20,7 +20,7 @@ class Alert(Document):
     created_at = DateTimeField(default=datetime.now())
     last_sent = DateTimeField()
 
-    def save(unique=False):
+    def save(self, unique=False):
         query_args = {f: getattr(self, f) for f in self.key}
         if unique and Alert.objects(**query_args):
             return 'duplicate'

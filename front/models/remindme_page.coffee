@@ -3,8 +3,8 @@ Page = require './page.coffee'
 
 class RemindmePage extends Page
     
-    initialize: ->
-        @set
-            'title': 'Remind me'
+    defaults: ->
+        'title': 'Remind me'
+        'html': '<h1>Hello world!</h1>'
 
 module.exports = RemindmePage

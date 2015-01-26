@@ -16,6 +16,7 @@ class Header extends Backbone.View
         _el = $ @ui.links
         _el.html ''
 
+        console.log 'good', @
         window.app.pages.forEach (page) ->
            linkView = new PageLinkView
                 model: page
@@ -23,14 +24,17 @@ class Header extends Backbone.View
 
 
 class PageLinkView extends Backbone.View
-    tagName: 'div'
-    className: 'header-link header-el'
+    tagName: 'li'
 
     events:
         'click': 'onClick'
 
     render: ->
-        @$el.html @model.get 'title'
+        @$el.html "<a>" + @model.get('title') + "</a>"
+        console.log 'yolo', window.app.activePage(), @model
+        if @model == window.app.activePage()
+            console.log 'yes'
+            @$el.addClass 'active'
         @
 
     onClick: ->

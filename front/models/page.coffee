@@ -3,10 +3,11 @@ class Page extends Backbone.Model
 
     defaults:
         title: 'untitled page'
+        active: false
 
-    render: ->
-        # Simple page
-        if page.content
+    isActive: ->
+        @get('active')
+
 
 
 module.exports = Page

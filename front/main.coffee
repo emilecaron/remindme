@@ -10,6 +10,8 @@ $ ->
     Header = require './views/header.coffee'
     Pages = require './collections/pages.coffee'
     RemindmePage = require './models/remindme_page.coffee'
+    AboutPage = require './models/about_page.coffee'
+    PageView = require './views/page_view.coffee'
 
 
     class AppView extends Backbone.View
@@ -21,25 +23,43 @@ $ ->
 
         initialize: ->
             console.log 'Initializing app'
+
             remindme = new RemindmePage()
-            @pages = new Pages([remindme])
+            about = new AboutPage()
+            @pages = new Pages([remindme, about])
             @header = new Header()
 
+            @initListener()
+
+
+        initListener: ->
             _app = @
             Backbone.on 'all', (name)->
                 console.log arguments
-                _app[name](arguments) if _app[name]
+                _app[name].apply(_app, arguments)
 
         render: ->
-            console.log 'Rendering appplication.'
+            console.log 'Rendering application.'
             @header.render()
 
-        changePage: (page)->
-            console.log 'event received in main:', page
-            page.render()
-            @$el.html(page.el)
+        changePage: (e, page)->
+            @active = page
+            console.log 'AAAA', @active
+            pageView = new PageView
+                model: page
+            pageView.render()
+            @$el.html pageView.el
+            @header.render()
+
+        activePage: ->
+            console.log 'ac', @active
+            @active
+
+        showFirstPage: ->
+            Backbone.trigger 'changePage', @pages.first()
 
 
     window.app = new AppView()
     window.app.render()
+    window.app.showFirstPage()
 

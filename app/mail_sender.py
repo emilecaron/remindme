@@ -16,6 +16,7 @@ def send_email(to, subject, html, sender=None):
         'html': html,
         'from': sender or 'noreply@zozor-remindme.herokuapp.com'
     }
+    print(params)
     try:
         rep = requests.get(url, params=params)
         rep.raise_for_status()
