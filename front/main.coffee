@@ -38,28 +38,25 @@ $ ->
                 console.log arguments
                 _app[name].apply(_app, arguments)
 
+        showFirstPage: ->
+            Backbone.trigger 'changePage', @pages.first()
+
         render: ->
             console.log 'Rendering application.'
             @header.render()
 
         changePage: (e, page)->
             @active = page
-            console.log 'AAAA', @active
             pageView = new PageView
                 model: page
             pageView.render()
             @$el.html pageView.el
-            @header.render()
+            @header.renderLinks()
 
         activePage: ->
-            console.log 'ac', @active
             @active
-
-        showFirstPage: ->
-            Backbone.trigger 'changePage', @pages.first()
 
 
     window.app = new AppView()
     window.app.render()
     window.app.showFirstPage()
-
