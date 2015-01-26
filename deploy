@@ -12,6 +12,8 @@ pip freeze > requirements.txt
 
 # Generate minified js bundle
 node_modules/browserify/bin/cmd.js -e front/main.coffee --verbose -t coffeeify -o app/static/javascripts/bundle.js
+git add app/static/javascripts/bundle.js
+git commit -m 'automatic deploy js build'
 
 # Run
 git push heroku master && heroku ps:scale web=1

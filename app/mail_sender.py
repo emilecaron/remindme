@@ -14,7 +14,7 @@ def send_email(to, subject, html, sender=None):
         'to': to,
         'subject': subject,
         'html': html,
-        'from': sender or 'noreply@zozor-remindme@herokuapp.com'
+        'from': sender or 'noreply@zozor-remindme.herokuapp.com'
     }
     try:
         rep = requests.get(url, params=params)
