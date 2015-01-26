@@ -14,6 +14,8 @@ $ ->
 
     class AppView extends Backbone.View
 
+        el: '#page'
+
         events:
             'changePage': 'onChangePage'
 
@@ -22,16 +24,21 @@ $ ->
             remindme = new RemindmePage()
             @pages = new Pages([remindme])
             @header = new Header()
+
+            _app = @
             Backbone.on 'all', (name)->
-                console.log 'proxy'
-                @trigger name
+                console.log arguments
+                _app[name](arguments) if _app[name]
 
         render: ->
             console.log 'Rendering appplication.'
             @header.render()
 
-        onPageChange: (page)->
+        changePage: (page)->
             console.log 'event received in main:', page
+            page.render()
+            @$el.html(page.el)
+
 
     window.app = new AppView()
     window.app.render()

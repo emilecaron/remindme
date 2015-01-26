@@ -14,6 +14,7 @@ from mail_sender import send_email
 app = Flask(__name__)
 online = online()
 
+# Redirect to these cdns if online
 cdns = {
     'jquery-1.11.2.min.js': 'https://code.jquery.com/jquery-1.11.2.min.js',
     'backbone-min.js': 'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js',

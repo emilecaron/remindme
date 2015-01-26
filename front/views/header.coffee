@@ -34,7 +34,6 @@ class PageLinkView extends Backbone.View
         @
 
     onClick: ->
-        console.log 'Click', @model.get 'title'
         Backbone.trigger 'changePage', @model
 
 
