@@ -35,8 +35,9 @@ $ ->
         initListener: ->
             _app = @
             Backbone.on 'all', (name)->
-                console.log arguments
-                _app[name].apply(_app, arguments)
+                console.log 'Event caught:', name, arguments
+                if name in _.functions(_app)
+                    _app[name].apply _app, arguments
 
         showFirstPage: ->
             Backbone.trigger 'changePage', @pages.first()
@@ -44,14 +45,17 @@ $ ->
         render: ->
             console.log 'Rendering application.'
             @header.render()
+            Backbone.trigger 'rendered'
 
         changePage: (e, page)->
+            console.log 'changepage'
             @active = page
             pageView = new PageView
                 model: page
             pageView.render()
             @$el.html pageView.el
             @header.renderLinks()
+            Backbone.trigger 'rendered'
 
         activePage: ->
             @active

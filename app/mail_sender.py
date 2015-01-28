@@ -21,5 +21,4 @@ def send_email(to, subject, html, sender=None):
         rep = requests.get(url, params=params)
         rep.raise_for_status()
     except requests.ConnectionError as e:
-        console.log
         return True

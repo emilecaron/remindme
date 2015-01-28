@@ -9,7 +9,11 @@ class Header extends Backbone.View
     template: _.template $('#header-template').html()
 
     render: ->
+        # Avoid losing fb_button html
+        @fb_html = $('.fb-share-button').html() if not @fg
+        
         @$el.html @template
+        $('.fb-share-button').html(@fb_html)
         @renderLinks()
 
     renderLinks: ->
