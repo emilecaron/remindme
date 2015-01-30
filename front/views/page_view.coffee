@@ -7,6 +7,9 @@ class Page extends Backbone.View
     initialize: ->
         Backbone.on 'switchPanel', @switchPanel, @
         Backbone.on 'rendered', @loadPanelJs, @
+        Backbone.on 'setPageData', (data) ->
+            console.log 'setData', data
+            , @
 
         panels = @model.get 'panels'
         @switchPanel _.first _.keys panels if panels
@@ -32,6 +35,8 @@ class Page extends Backbone.View
 
     loadPanelJs: ->
         console.log 'handler', @model
+        pageData =
+            yo: 'lo'
         pan = @model.get('activePanel')
         pan.loadJs() if pan
 

@@ -5,12 +5,19 @@ class RemindmePage extends Page
     
     defaults: ->
         title: 'Remind me'
-        panels: 
+        panels:
             'rme_welcome': ->
-                $('#welcome_button').click ->
+                $('#no_button').click ->
                     Backbone.trigger 'switchPanel', 'rme_date'
+
             'rme_date': ->
-                console.log 'at last'
+                $('.datepicker').datepicker().on 'changeDate', (e)->
+                        Backbone.trigger 'setPageData',
+                            'date': e.date
+                        Backbone.trigger 'switchPanel', 'rme_email'
+
+            'rme_email': ->
+                console.log pageData
     
 
 module.exports = RemindmePage

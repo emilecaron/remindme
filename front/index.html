@@ -6,6 +6,7 @@
       <title>@Zozor</title>
       <!--<link rel="stylesheet" href="{{url_for('static', filename='css/stuff.css')}}"/>-->
       <link rel="stylesheet" href="cdn/bootstrap.min.css"/>
+      <link rel="stylesheet" href="cdn/datepicker.css"/>
 
       <script type="text/javascript">
           var _gaq = _gaq || [];
@@ -37,6 +38,7 @@
     <script src="cdn/jquery-1.11.2.min.js"></script>
     <script src="cdn/backbone-min.js"></script>
     <script src="cdn/bootstrap.min.js"></script>
+    <script src="cdn/bootstrap-datepicker.js"></script>
     <script src="{{url_for('static', filename='javascripts/bundle.js')}}"></script>
 </body>
 
@@ -57,18 +59,21 @@
 
 <!-- Pannels -->
 <script type="text/template" id="rme_welcome">
-  <h1>Yo!</h1>
-  <button id="welcome_button">Go!</button>
+  <h1>Do you like it when your GF is on her periods?</h1>
+  <button id="yes_button">Yes</button>
+  <button id="no_button">No</button>
 </script>
 
 <script type="text/template" id="rme_date">
-  <h1>Date!</h1>
+  <h1>When does it start?</h1>
+  <div class="datepicker"></div>
+</script>
+
+<script type="text/template" id="rme_email">
+  <h1>Give me your email bro</h1>
 </script>
 
 <!--
-    <% _.each(pages, function(page){ %>
-        <a class='header-link'><%= page.title %></a>
-    <% }); %>
 
 <body>
 =======
