@@ -7,8 +7,11 @@ class RemindmePage extends Page
         title: 'Remind me'
         panels:
             'rme_welcome': ->
+                console.log 'my. na. is. zozor.'
+                ###
                 $('#no_button').click ->
                     Backbone.trigger 'switchPanel', 'rme_date'
+                ###
 
             'rme_date': ->
                 $('.datepicker').datepicker().on 'changeDate', (e)->
