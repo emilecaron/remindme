@@ -27,7 +27,8 @@ $ ->
             remindme = new RemindmePage()
             about = new AboutPage()
             @pages = new Pages([remindme, about])
-            @header = new Header()
+            @header = new Header
+                pages: @pages
 
             @initListener()
 
@@ -61,6 +62,6 @@ $ ->
             @active
 
 
-    window.app = new AppView()
-    window.app.render()
-    window.app.showFirstPage()
+    app = new AppView()
+    app.render()
+    app.showFirstPage()
