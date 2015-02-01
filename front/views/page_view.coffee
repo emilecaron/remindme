@@ -2,6 +2,8 @@ PanelView = require './panel_view.coffee'
 
 class Page extends Backbone.View
 
+    el: '#page'
+
     title: 'undefined_page'
 
     initialize: ->
@@ -15,15 +17,8 @@ class Page extends Backbone.View
         @switchPanel _.first _.keys panels if panels
 
     render: ->
-        @renderHtml() if @model.get 'html'
-        @renderActivePanel() if @model.get 'activePanel'
-        Backbone.trigger 'rendered'
-    
-    renderHtml: ->
-        @$el.html @model.get 'html'
-
-    renderActivePanel: ->
         @$el.html @model.get('activePanel').render().el
+        Backbone.trigger 'rendered'
 
     switchPanel: (name)->
         if name in _.functions @model.get 'panels'

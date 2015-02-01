@@ -11,12 +11,9 @@ $ ->
     Pages = require './collections/pages.coffee'
     RemindmePage = require './models/remindme_page.coffee'
     AboutPage = require './models/about_page.coffee'
-    PageView = require './views/page_view.coffee'
 
 
     class AppView extends Backbone.View
-
-        el: '#page'
 
         events:
             'changePage': 'onChangePage'
@@ -27,41 +24,30 @@ $ ->
             remindme = new RemindmePage()
             about = new AboutPage()
             @pages = new Pages([remindme, about])
+
             @header = new Header
                 pages: @pages
 
             @initListener()
-
+            @render()
 
         initListener: ->
-            _app = @
+            # allow app functions to be triggered with events
+            app = @
             Backbone.on 'all', (name)->
-                console.log 'Event caught:', name, arguments
-                if name in _.functions(_app)
-                    _app[name].apply _app, arguments
+                app[name].apply app, arguments if name in _.functions(app)
 
         showFirstPage: ->
             Backbone.trigger 'changePage', @pages.first()
 
         render: ->
-            console.log 'Rendering application.'
             @header.render()
             Backbone.trigger 'rendered'
+            @
 
         changePage: (e, page)->
-            console.log 'changepage'
-            @active = page
-            pageView = new PageView
-                model: page
-            pageView.render()
-            @$el.html pageView.el
+            page.get('view').render()
             @header.renderLinks()
-            Backbone.trigger 'rendered'
 
-        activePage: ->
-            @active
-
-
-    app = new AppView()
-    app.render()
-    app.showFirstPage()
+    _app = new AppView()
+    Backbone.trigger 'showFirstPage'
