@@ -1,2 +1,2 @@
-source ./.env
+source ./.env/bin/activate
 python app/app.py -d
