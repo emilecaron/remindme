@@ -4,7 +4,7 @@ class Page extends Backbone.View
 
     el: '#page'
 
-    title: 'undefined_page'
+    title: 'default title'
 
     initialize: ->
         Backbone.on 'switchPanel', @switchPanel, @
@@ -14,20 +14,19 @@ class Page extends Backbone.View
 
     render: ->
         @$el.html @model.get('activePanel').render().el
-        #Backbone.trigger 'rendered'
+        console.log $ '#no_button'
+        console.log 'triggering page rendered'
+        Backbone.trigger 'page_rendered'
 
     switchPanel: (name)->
+        console.log 'switching panel', name
         if name in _.functions @model.get 'panels'
             activePanel = new PanelView
                 model: new Backbone.Model
                     name: name
                     code: @model.get('panels')[name]
             @model.set 'activePanel', activePanel
-
-    loadPanelJs: ->
-        console.log 'handler', @model
-        pan = @model.get('activePanel')
-        pan.loadJs() if pan
+            @render()
 
 
 
